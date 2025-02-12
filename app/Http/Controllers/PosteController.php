@@ -12,7 +12,9 @@ class PosteController extends Controller
     public function index()
     {
         $response = Http::get('http://localhost:3000/postes');
-        return $response->json();
+        $postes = $response->json();
+
+        return view('postes.index', compact('postes'));
     }
 
     // Obtener un poste por ID

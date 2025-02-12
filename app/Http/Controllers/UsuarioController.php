@@ -11,7 +11,9 @@ class UsuarioController extends Controller
     public function index()
     {
         $response = Http::get('http://localhost:3000/usuarios');
-        return $response->json();
+        $usuarios = $response->json();
+
+        return view('usuarios.index', compact('usuarios'));
     }
 
     // Obtener un usuario por ID

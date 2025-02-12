@@ -11,7 +11,9 @@ class sensorController extends Controller
     public function index()
     {
         $response = Http::get('http://localhost:3000/sensores');
-        return $response->json();
+        $sensores = $response->json();
+
+        return view('sensores.index', compact('sensores'));
     }
 
     // Obtener un sensor por ID

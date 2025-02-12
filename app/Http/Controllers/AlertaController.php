@@ -11,7 +11,9 @@ class AlertaController extends Controller
         public function index()
         {
             $response = Http::get('http://localhost:3000/alertas');
-            return $response->json();
+            $alertas = $response->json();
+
+            return view('alertas.index', compact('alertas'));
         }
     
         // Obtener una alertas por ID

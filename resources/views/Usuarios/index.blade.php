@@ -4,6 +4,7 @@
 
 @section('content')
     <h1 class="my-4">Lista de Usuarios</h1>
+    <a href="{{ route('usuarios.create') }}" class="btn btn-primary mb-3">Agregar Usuario</a>
     <div class="row">
         @foreach($usuarios as $usuario)
             <div class="col-md-4 mb-4">

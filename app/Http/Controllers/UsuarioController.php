@@ -23,6 +23,10 @@ class UsuarioController extends Controller
         return $response->json();
     }
 
+    public function create(Request $request)
+    {
+        return view('usuarios.form');
+    }
     // Crear un nuevo usuario
     public function store(Request $request)
     {

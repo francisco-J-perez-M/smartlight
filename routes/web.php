@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PosteController;
 use App\Http\Controllers\SensorController;
 use App\Http\Controllers\AlertaController;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\UserController;
+
 
 // Ruta principal
 Route::get('/', [PosteController::class, 'index'])->name('home');
@@ -31,9 +32,9 @@ Route::put('/alertas/{id}', [AlertaController::class, 'update'])->name('alertas.
 Route::delete('/alertas/{id}', [AlertaController::class, 'destroy'])->name('alertas.destroy');
 
 // Rutas para Usuarios
-Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
-Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show');
-Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuarios.store');
-Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
-Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
-Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('usuarios.create');
+Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
+Route::get('/usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
+Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store');
+Route::get('/usuarios/{id}', [UserController::class, 'show'])->name('usuarios.show');
+Route::put('/usuarios/{id}', [UserController::class, 'update'])->name('usuarios.update');
+Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');

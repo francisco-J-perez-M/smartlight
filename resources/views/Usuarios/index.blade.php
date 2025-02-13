@@ -7,9 +7,9 @@
     <div class="row">
         @foreach($usuarios as $usuario)
             <div class="col-md-4 mb-4">
-                <div class="usuario-card">
+                <div class="card">
                     <h2>{{ $usuario['nombre'] }}</h2>
-                    <p><strong>Email:</strong> {{ $usuario['email'] }}</p>
+                    <p><strong>Emaill:</strong> {{ $usuario['email'] }}</p>
                     <p><strong>Rol:</strong> {{ $usuario['rol'] }}</p>
                     <p><strong>ID:</strong> {{ $usuario['_id'] }}</p>
                 </div>

@@ -5,24 +5,38 @@
 @section('content')
     <div class="container">
         <h1 class="my-4">Lista de Postes</h1>
+        <a href="{{ route('postes.create') }}" class="btn btn-primary mb-3">Agregar Poste</a>
         <div class="row">
             @foreach ($postes as $poste)
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">ID del Poste: {{ $poste['_id'] }}</h5>
+                            <h5 class="card-title">
+                                ID del Poste: 
+                                {{ is_array($poste['_id'] ?? null) ? json_encode($poste['_id']) : ($poste['_id'] ?? 'No disponible') }}
+                            </h5>
+                            <p class="card-text">
+                                <strong>Ubicación:</strong> 
+                                {{ is_array($poste['ubicacion'] ?? null) ? 'No especificada' : ($poste['ubicacion'] ?? 'No especificada') }}
+                            </p>
                             <p class="card-text">
                                 <strong>Estado:</strong>
-                                <span class="badge {{ $poste['estado'] === 'activo' ? 'badge-success' : 'badge-danger' }}">
-                                    {{ $poste['estado'] }}
+                                @php
+                                    $estado = is_array($poste['estado'] ?? null) ? 'inactivo' : ($poste['estado'] ?? 'inactivo');
+                                    $claseEstado = $estado === 'activo' ? 'badge-success' : 'badge-danger';
+                                @endphp
+                                <span class="badge {{ $claseEstado }}">
+                                    {{ $estado }}
                                 </span>
                             </p>
                             <p class="card-text">
                                 <strong>Sensores:</strong>
-                                @if (count($poste['sensores']) > 0)
+                                @if (!empty($poste['sensores']) && is_array($poste['sensores']) && count($poste['sensores']) > 0)
                                     <ul>
                                         @foreach ($poste['sensores'] as $sensor)
-                                            <li>{{ $sensor }}</li>
+                                            <li>
+                                                {{ is_array($sensor) && isset($sensor['_id']) ? $sensor['_id'] : 'ID no disponible' }}
+                                            </li>
                                         @endforeach
                                     </ul>
                                 @else

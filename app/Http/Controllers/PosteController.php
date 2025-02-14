@@ -7,41 +7,64 @@ use Illuminate\Support\Facades\Http;
 
 class PosteController extends Controller
 {
-
     // Obtener todos los postes
     public function index()
     {
         $response = Http::get('http://localhost:3000/postes');
         $postes = $response->json();
 
+        // Asegurar que $postes es un array
+        if (!is_array($postes)) {
+            $postes = [];
+        }
+
         return view('postes.index', compact('postes'));
     }
 
-    // Obtener un poste por ID
-    public function show($id)
+    public function create()
     {
-        $response = Http::get("{http://localhost:3000/postes");
-        return $response->json();
+        // Obtener la lista de sensores desde la API
+        $response = Http::get('http://localhost:3000/sensores');
+        $sensores = $response->json();
+
+        if (!is_array($sensores)) {
+            $sensores = [];
+        }
+
+        return view('Postes.form', compact('sensores'));
     }
 
     // Crear un nuevo poste
     public function store(Request $request)
     {
-        $response = Http::post("http://localhost:3000/postes", $request->all());
-        return $response->json();
+        Http::post("http://localhost:3000/postes", $request->all());
+        return redirect()->route('postes.index');
+    }   
+
+    // Obtener un poste por ID
+    public function show($id)
+    {
+        $response = Http::get("http://localhost:3000/postes/{$id}");
+        $poste = $response->json();
+
+        if (!is_array($poste)) {
+            $poste = [];
+        }
+
+        return view('postes.show', compact('poste'));
     }
 
     // Actualizar un poste por ID
     public function update(Request $request, $id)
     {
-        $response = Http::put("http://localhost:3000/postes", $request->all());
-        return $response->json();
+        Http::put("http://localhost:3000/postes/{$id}", $request->all());
+        return redirect()->route('postes.index');
     }
 
     // Eliminar un poste por ID
     public function destroy($id)
     {
-        $response = Http::delete("http://localhost:3000/postes");
-        return $response->json();
+        Http::delete("http://localhost:3000/postes/{$id}");
+        return redirect()->route('postes.index');
     }
 }

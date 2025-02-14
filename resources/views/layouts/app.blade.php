@@ -40,7 +40,6 @@
 </head>
 <body>
 
-    <!-- Navbar fija arriba -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">Mi App</a>

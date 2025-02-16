@@ -5,6 +5,7 @@
 @section('content')
     <div class="container">
         <h1 class="my-4">Lista de Sensores</h1>
+        <a href="{{ route('sensores.create') }}" class="btn btn-primary mb-3">Agregar Sensor</a>
         <div class="row">
             @foreach ($sensores as $sensor)
                 <div class="col-md-4 mb-4">

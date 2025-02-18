@@ -15,19 +15,28 @@ class AlertaController extends Controller
 
             return view('alertas.index', compact('alertas'));
         }
+        public function create()
+        {
+            // Obtener los sensores desde la API
+            $response = Http::get('http://localhost:3000/sensores');
+            $sensores = $response->json(); // Convertir la respuesta JSON en un array
+
+            // Pasar los sensores a la vista
+            return view('Alertas.form', compact('sensores'));
+        }
     
         // Obtener una alertas por ID
         public function show($id)
         {
-            $response = Http::get("{http://localhost:3000/alertas");
-            return $response->json();
+            Http::get("{http://localhost:3000/alertas");
+            return view('Alertas.index');
         }
     
         // Crear una nueva alerta
         public function store(Request $request)
         {
-            $response = Http::post("http://localhost:3000/alertas", $request->all());
-            return $response->json();
+            Http::post("http://localhost:3000/alertas", $request->all());
+            return view('Alertas.index');
         }
     
         // Actualizar una alerta por ID

@@ -5,6 +5,7 @@
 @section('content')
     <div class="container">
         <h1 class="my-4">Lista de Alertas</h1>
+        <a href="{{ route('alertas.create') }}" class="btn btn-primary mb-3">Agregar Alerta</a>
         <div class="row">
             @foreach ($alertas as $alerta)
                 <div class="col-md-4 mb-4">

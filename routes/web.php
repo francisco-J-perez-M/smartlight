@@ -31,6 +31,7 @@ Route::delete('/sensores/{id}', [SensorController::class, 'destroy'])->name('sen
 
 // Rutas para Alertas
 Route::get('/alertas', [AlertaController::class, 'index'])->name('alertas.index');
+Route::get('/alertas/create', [AlertaController::class, 'create'])->name('alertas.create');
 Route::post('/alertas', [AlertaController::class, 'store'])->name('alertas.store');
 Route::get('/alertas/{id}', [AlertaController::class, 'show'])->name('alertas.show');
 Route::put('/alertas/{id}', [AlertaController::class, 'update'])->name('alertas.update');

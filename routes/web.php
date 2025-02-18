@@ -1,14 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PosteController;
 use App\Http\Controllers\SensorController;
 use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\UserController;
 
 
-// Ruta principal
-Route::get('/', [PosteController::class, 'index'])->name('home');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/home', [AuthController::class, 'home'])->name('home');
 
 // Rutas para Postes
 Route::get('/postes', [PosteController::class, 'index'])->name('postes.index');

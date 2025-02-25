@@ -37,10 +37,12 @@ Route::get('/alertas/{id}', [AlertaController::class, 'show'])->name('alertas.sh
 Route::put('/alertas/{id}', [AlertaController::class, 'update'])->name('alertas.update');
 Route::delete('/alertas/{id}', [AlertaController::class, 'destroy'])->name('alertas.destroy');
 
+
 // Rutas para Usuarios
 Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
 Route::get('/usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
 Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store');
+Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
 Route::get('/usuarios/{id}', [UserController::class, 'show'])->name('usuarios.show');
 Route::put('/usuarios/{id}', [UserController::class, 'update'])->name('usuarios.update');
-Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+Route::get('/usuarios/{id}/edit', [UserController::class, 'edit'])->name('usuarios.edit');

@@ -3,13 +3,13 @@
 @section('title', 'Lista de Postes')
 
 @section('content')
-    <div class="container">
+    <div class="p-4"> <!-- Padding para el contenido -->
         <h1 class="my-4">Lista de Postes</h1>
-        <a href="{{ route('postes.create') }}" class="btn btn-primary mb-3">Agregar Poste</a>
+        <a href="{{ route('postes.create') }}" class="btn btn-outline-light mb-3">Agregar Poste</a>
         <div class="row">
             @foreach ($postes as $poste)
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card bg-secondary text-light">
                         <div class="card-body">
                             <h5 class="card-title">
                                 ID del Poste: 

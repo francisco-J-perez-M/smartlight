@@ -3,13 +3,13 @@
 @section('title', 'Lista de Alertas')
 
 @section('content')
-    <div class="container">
+    <div class="p-4"> <!-- Padding para el contenido -->
         <h1 class="my-4">Lista de Alertas</h1>
-        <a href="{{ route('alertas.create') }}" class="btn btn-primary mb-3">Agregar Alerta</a>
+        <a href="{{ route('alertas.create') }}" class="btn btn-outline-light mb-3">Agregar Alerta</a>
         <div class="row">
             @foreach ($alertas as $alerta)
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card bg-secondary text-light">
                         <div class="card-body">
                             <h5 class="card-title">ID de la Alerta: {{ $alerta['_id'] }}</h5>
                             <p class="card-text">

@@ -3,13 +3,13 @@
 @section('title', 'Lista de Sensores')
 
 @section('content')
-    <div class="container">
+    <div class="p-4"> <!-- Padding para el contenido -->
         <h1 class="my-4">Lista de Sensores</h1>
-        <a href="{{ route('sensores.create') }}" class="btn btn-primary mb-3">Agregar Sensor</a>
+        <a href="{{ route('sensores.create') }}" class="btn btn-outline-light mb-3">Agregar Sensor</a>
         <div class="row">
             @foreach ($sensores as $sensor)
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card bg-secondary text-light">
                         <div class="card-body">
                             <h5 class="card-title">ID del Sensor: {{ $sensor['_id'] }}</h5>
                             <p class="card-text">

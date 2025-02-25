@@ -8,37 +8,61 @@
     <style>
         body {
             padding-top: 70px;
+            background-color: #343a40; /* Fondo oscuro para el cuerpo */
+            color: #ffffff; /* Texto claro */
         }
-    .badge-success {
-        background-color: #28a745;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-    }
-    .badge-danger {
-        background-color: #dc3545;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-    }
-    .card {
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .card-title {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-    }
-    .card-text {
-        font-size: 1.1rem;
-    }
-    hr {
-        margin: 1.5rem 0;
-    }
+
+        /* Personalización de la barra de desplazamiento */
+        body::-webkit-scrollbar {
+            width: 8px; /* Ancho de la barra de desplazamiento */
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #343a40; /* Fondo oscuro para la pista */
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #6c757d; /* Color del pulgar */
+            border-radius: 4px; /* Bordes redondeados */
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background: #495057; /* Color del pulgar al pasar el mouse */
+        }
+
+        .badge-success {
+            background-color: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .badge-danger {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .card {
+            border: 1px solid rgba(255, 255, 255, 0.125); /* Borde claro para las tarjetas */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #454d55; /* Fondo oscuro para las tarjetas */
+            color: #ffffff; /* Texto claro */
+        }
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .card-text {
+            font-size: 1.1rem;
+        }
+        hr {
+            margin: 1.5rem 0;
+            border-color: rgba(255, 255, 255, 0.1); /* Línea divisoria más clara */
+        }
     </style>
 </head>
-<body>
+<body class="bg-dark text-light"> <!-- Aplicar fondo oscuro y texto claro aquí -->
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
@@ -66,7 +90,7 @@
     </nav>
 
     <!-- Contenido -->
-    <div class="container mt-5">
+    <div class="container mt-5 bg-transparent"> <!-- Contenedor con fondo transparente -->
         @yield('content')
     </div>
 

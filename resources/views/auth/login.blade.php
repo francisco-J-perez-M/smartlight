@@ -7,62 +7,72 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #343a40; /* Fondo oscuro para el cuerpo */
+            background-color: #212529; /* Fondo oscuro elegante */
         }
         .card {
-            background-color: #454d55; /* Fondo oscuro para la tarjeta */
-            color: #ffffff; /* Texto claro */
+            background-color: #2c3034;
+            color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px; /* Aumentado el ancho máximo */
         }
         .form-control {
-            background-color: #343a40; /* Fondo oscuro para los campos de formulario */
-            color: #ffffff; /* Texto claro */
-            border: 1px solid #6c757d; /* Borde gris */
+            background-color: #3a3f44;
+            color: #ffffff;
+            border: 1px solid #6c757d;
+            border-radius: 10px;
+            font-size: 1.2rem; /* Aumentado el tamaño del texto */
         }
         .form-control:focus {
-            background-color: #343a40; /* Fondo oscuro al enfocar */
-            color: #ffffff; /* Texto claro al enfocar */
-            border-color: #6c757d; /* Borde gris al enfocar */
+            background-color: #3a3f44;
+            color: #ffffff;
+            border-color: #0d6efd;
+            box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
         }
         .btn-primary {
-            background-color: #0d6efd; /* Color primario para el botón */
-            border-color: #0d6efd; /* Borde del botón */
+            background-color: #0d6efd;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.2rem; /* Aumentado el tamaño del botón */
+            padding: 10px;
         }
         .btn-primary:hover {
-            background-color: #0b5ed7; /* Color primario al pasar el mouse */
-            border-color: #0b5ed7; /* Borde del botón al pasar el mouse */
+            background-color: #0b5ed7;
+        }
+        .card-header {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            font-size: 1.5rem; /* Aumentado el tamaño del texto del encabezado */
         }
     </style>
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100">
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-4">
-                <div class="card shadow-lg">
-                    <div class="card-header bg-primary text-white text-center">
-                        <h4>Iniciar Sesión</h4>
+    <div class="container d-flex justify-content-center">
+        <div class="card shadow-lg p-4">
+            <div class="card-header bg-primary text-white text-center py-3">
+                <h4 class="mb-0">Iniciar Sesión</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/login">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" name="nombre" id="nombre" class="form-control" required>
                     </div>
-                    <div class="card-body">
-                        <form method="POST" action="/login">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" name="nombre" id="nombre" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Contraseña</label>
-                                <input type="password" name="password" id="password" class="form-control" required>
-                            </div>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Ingresar</button>
-                            </div>
-                        </form>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" required>
                     </div>
-                </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" name="password" id="password" class="form-control" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Ingresar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

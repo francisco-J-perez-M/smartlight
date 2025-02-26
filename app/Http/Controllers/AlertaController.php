@@ -7,49 +7,70 @@ use Illuminate\Support\Facades\Http;
 
 class AlertaController extends Controller
 {
-        // Obtener todos las alertas
-        public function index()
-        {
-            $response = Http::get('http://localhost:3000/alertas');
-            $alertas = $response->json();
+    // Obtener todos las alertas
+    public function index()
+    {
+        $response = Http::get('http://localhost:3000/alertas');
+        $alertas = $response->json();
 
-            return view('alertas.index', compact('alertas'));
-        }
-        public function create()
-        {
-            // Obtener los sensores desde la API
-            $response = Http::get('http://localhost:3000/sensores');
-            $sensores = $response->json(); // Convertir la respuesta JSON en un array
+        return view('alertas.index', compact('alertas'));
+    }
 
-            // Pasar los sensores a la vista
-            return view('Alertas.form', compact('sensores'));
-        }
-    
-        // Obtener una alertas por ID
-        public function show($id)
-        {
-            Http::get("{http://localhost:3000/alertas");
-            return view('Alertas.index');
-        }
-    
-        // Crear una nueva alerta
-        public function store(Request $request)
-        {
-            Http::post("http://localhost:3000/alertas", $request->all());
-            return view('Alertas.index');
-        }
-    
-        // Actualizar una alerta por ID
-        public function update(Request $request, $id)
-        {
-            $response = Http::put("http://localhost:3000/alertas", $request->all());
-            return $response->json();
-        }
-    
-        // Eliminar una alerta por ID
-        public function destroy($id)
-        {
-            $response = Http::delete("http://localhost:3000/alertas");
-            return $response->json();
-        }
+    // Mostrar el formulario de creación
+    public function create()
+    {
+        // Obtener los sensores desde la API
+        $response = Http::get('http://localhost:3000/sensores');
+        $sensores = $response->json();
+
+        // Pasar los sensores a la vista
+        return view('Alertas.form', compact('sensores'));
+    }
+
+    // Mostrar los detalles de una alerta específica
+    public function show($id)
+    {
+        // Obtener la alerta específica desde la API
+        $response = Http::get("http://localhost:3000/alertas/{$id}");
+        $alerta = $response->json();
+
+        // Pasar la alerta a la vista de detalles
+        return view('Alertas.show', compact('alerta'));
+    }
+
+    // Mostrar el formulario de edición
+    public function edit($id)
+    {
+        // Obtener la alerta específica desde la API
+        $response = Http::get("http://localhost:3000/alertas/{$id}");
+        $alerta = $response->json();
+
+        // Obtener los sensores desde la API
+        $response = Http::get('http://localhost:3000/sensores');
+        $sensores = $response->json();
+
+        // Pasar la alerta y los sensores a la vista
+        return view('Alertas.form', compact('alerta', 'sensores'));
+    }
+
+    // Crear una nueva alerta
+    public function store(Request $request)
+    {
+        Http::post("http://localhost:3000/alertas", $request->all());
+        return redirect()->route('alertas.index');
+    }
+
+    // Actualizar una alerta por ID
+    public function update(Request $request, $id)
+    {
+        Http::put("http://localhost:3000/alertas/{$id}", $request->all());
+        return redirect()->route('alertas.index');
+    }
+
+    // Eliminar una alerta por ID
+    public function destroy($id)
+    {
+        Http::delete("http://localhost:3000/alertas/{$id}");
+        return redirect()->route('alertas.index');
+    }
 }

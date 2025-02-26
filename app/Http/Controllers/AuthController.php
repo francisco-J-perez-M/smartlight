@@ -51,7 +51,27 @@ class AuthController extends Controller
     return back()->withErrors(['email' => 'Las credenciales proporcionadas no son correctas.']);
 }
 
+public function showRegisterForm()
+{
+    return view('auth.register');
+}
 
+public function register(Request $request)
+{
+    $credentials = $request->only('nombre', 'email', 'password');
+
+    // Asegúrate de que el rol sea 'tecnico'
+    $credentials['rol'] = 'tecnico';
+
+    // Enviar los datos a la API para crear el usuario
+    $response = Http::post('http://localhost:3000/usuarios', $credentials);
+
+    if ($response->successful()) {
+        return redirect()->route('login')->with('success', 'Registro exitoso. Por favor, inicia sesión.');
+    } else {
+        return back()->withErrors(['error' => 'Error al registrar el usuario.']);
+    }
+}
     public function logout(Request $request)
     {
         Session::forget('user');

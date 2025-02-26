@@ -12,6 +12,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/home', [AuthController::class, 'home'])->name('home');
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
 
 // Rutas para Postes
 Route::get('/postes', [PosteController::class, 'index'])->name('postes.index');

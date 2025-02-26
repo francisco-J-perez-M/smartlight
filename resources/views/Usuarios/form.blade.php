@@ -29,7 +29,7 @@
                 <label for="password" class="form-label text-light">Contraseña:</label>
                 <input type="password" name="password" id="password" class="form-control bg-dark text-light" {{ isset($usuario) ? '' : 'required' }}>
                 @if(isset($usuario))
-                    <small class="text-muted">Deja este campo en blanco si no deseas cambiar la contraseña.</small>
+                <small class="text-light d-block mt-1">Deja este campo en blanco si no deseas cambiar la contraseña.</small>
                 @endif
             </div>
 

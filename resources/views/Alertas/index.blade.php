@@ -5,8 +5,12 @@
 @section('content')
     <div class="p-4"> <!-- Padding para el contenido -->
         <h1 class="my-4">Lista de Alertas</h1>
-        <a href="{{ route('alertas.create') }}" class="btn btn-outline-light mb-3">Agregar Alerta</a>
-        
+
+        <!-- Botón "Agregar Alerta" solo para admin -->
+        @if(Session::get('rol') === 'admin')
+            <a href="{{ route('alertas.create') }}" class="btn btn-outline-light mb-3">Agregar Alerta</a>
+        @endif
+
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -40,12 +44,16 @@
                             </p>
                             <!-- Botones de acción -->
                             <a href="{{ route('alertas.show', $alerta['_id']) }}" class="btn btn-outline-light mb-3">Detalles</a>
-                            <a href="{{ route('alertas.edit', $alerta['_id']) }}" class="btn btn-outline-warning mb-3">Editar</a>
-                            <form action="{{ route('alertas.destroy', $alerta['_id']) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger mb-3">Eliminar</button>
-                            </form>
+
+                            <!-- Botones de "Editar" y "Eliminar" solo para admin -->
+                            @if(Session::get('rol') === 'admin')
+                                <a href="{{ route('alertas.edit', $alerta['_id']) }}" class="btn btn-outline-warning mb-3">Editar</a>
+                                <form action="{{ route('alertas.destroy', $alerta['_id']) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger mb-3">Eliminar</button>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 </div>

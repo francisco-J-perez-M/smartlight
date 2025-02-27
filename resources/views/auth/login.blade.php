@@ -66,6 +66,13 @@
                 <h4 class="mb-0">Iniciar Sesión</h4>
             </div>
             <div class="card-body">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
                 <form method="POST" action="/login">
                     @csrf
                     <div class="mb-3">

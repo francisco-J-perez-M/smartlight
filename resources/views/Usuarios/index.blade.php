@@ -5,8 +5,12 @@
 @section('content')
     <div class="p-4"> <!-- Padding para el contenido -->
         <h1 class="my-4">Lista de Usuarios</h1>
-        <a href="{{ route('usuarios.create') }}" class="btn btn-outline-light mb-3">Agregar Usuario</a>
-        
+
+        <!-- Botón "Agregar Usuario" solo para admin -->
+        @if(Session::get('rol') === 'admin')
+            <a href="{{ route('usuarios.create') }}" class="btn btn-outline-light mb-3">Agregar Usuario</a>
+        @endif
+
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -29,12 +33,16 @@
                             <p class="card-text"><strong>Rol:</strong> {{ $usuario['rol'] }}</p>
                             <p class="card-text"><strong>ID:</strong> {{ $usuario['_id'] }}</p>
                             <a href="{{ route('usuarios.show', $usuario['_id']) }}" class="btn btn-outline-light mb-3">Detalles</a>
-                            <a href="{{ route('usuarios.edit', $usuario['_id']) }}" class="btn btn-outline-warning mb-3">Editar</a>
-                            <form action="{{ route('usuarios.destroy', $usuario['_id']) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger mb-3">Eliminar</button>
-                            </form>
+
+                            <!-- Botones de editar y eliminar solo para admin -->
+                            @if(Session::get('rol') === 'admin')
+                                <a href="{{ route('usuarios.edit', $usuario['_id']) }}" class="btn btn-outline-warning mb-3">Editar</a>
+                                <form action="{{ route('usuarios.destroy', $usuario['_id']) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger mb-3">Eliminar</button>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 </div>

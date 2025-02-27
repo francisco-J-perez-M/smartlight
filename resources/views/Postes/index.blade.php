@@ -5,7 +5,12 @@
 @section('content')
     <div class="p-4"> <!-- Padding para el contenido -->
         <h1 class="my-4">Lista de Postes</h1>
-        <a href="{{ route('postes.create') }}" class="btn btn-outline-light mb-3">Agregar Poste</a>
+
+        <!-- Botón "Agregar Poste" solo para admin -->
+        @if(Session::get('rol') === 'admin')
+            <a href="{{ route('postes.create') }}" class="btn btn-outline-light mb-3">Agregar Poste</a>
+        @endif
+
         <div class="row">
             @foreach ($postes as $poste)
                 <div class="col-md-4 mb-4">
@@ -44,17 +49,22 @@
                                 @endif
                             </p>
                             <div class="d-flex gap-2">
+                                <!-- Botón "Consultar" visible para todos -->
                                 <a href="{{ route('postes.show', ['id' => $poste['_id']]) }}" class="btn btn-outline-light">
                                     Consultar
                                 </a>
-                                <a href="{{ route('postes.edit', $poste['_id']) }}" class="btn btn-outline-warning">
-                                    Editar
-                                </a>
-                                <form action="{{ route('postes.destroy', $poste['_id']) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este poste?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-outline-danger">Eliminar</button>
-                                </form>
+
+                                <!-- Botones de "Editar" y "Eliminar" solo para admin -->
+                                @if(Session::get('rol') === 'admin')
+                                    <a href="{{ route('postes.edit', $poste['_id']) }}" class="btn btn-outline-warning">
+                                        Editar
+                                    </a>
+                                    <form action="{{ route('postes.destroy', $poste['_id']) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este poste?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                     </div>

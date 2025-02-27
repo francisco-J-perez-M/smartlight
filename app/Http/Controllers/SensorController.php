@@ -26,12 +26,13 @@ class SensorController extends Controller
         return view('sensores.form', compact('postes'));
     }
 
-    // Crear un sensor
     public function store(Request $request)
-    {
-        Http::post('http://localhost:3000/sensores', $request->all());
-        return view('sensores.form');
-    }
+{
+    Http::post('http://localhost:3000/sensores', $request->all());
+    return redirect()->route('sensores.index')->with('success', 'Sensor creado correctamente.');
+}
+
+
 
     // Obtener un sensor por ID
     public function show($id)
@@ -51,6 +52,7 @@ class SensorController extends Controller
     $postes = $responsePostes->json();
 
     return view('sensores.form', compact('sensor', 'postes'));
+
     }
 
     // Actualizar un sensor por ID

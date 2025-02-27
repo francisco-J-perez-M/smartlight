@@ -20,6 +20,7 @@ Route::get('/postes', [PosteController::class, 'index'])->name('postes.index');
 Route::get('/postes/create', [PosteController::class, 'create'])->name('postes.create');
 Route::post('/postes', [PosteController::class, 'store'])->name('postes.store');
 Route::get('/postes/{id}', [PosteController::class, 'show'])->name('postes.show');
+Route::get('/postes/{id}/edit', [PosteController::class, 'edit'])->name('postes.edit');
 Route::put('/postes/{id}', [PosteController::class, 'update'])->name('postes.update');
 Route::delete('/postes/{id}', [PosteController::class, 'destroy'])->name('postes.destroy');
 
@@ -29,6 +30,7 @@ Route::get('/sensores/create', [SensorController::class, 'create'])->name('senso
 Route::post('/sensores', [SensorController::class, 'store'])->name('sensores.store');
 Route::get('/sensores/{id}', [SensorController::class, 'show'])->name('sensores.show');
 Route::put('/sensores/{id}', [SensorController::class, 'update'])->name('sensores.update');
+Route::get('/sensores/{id}/edit', [SensorController::class, 'edit'])->name('sensores.edit');
 Route::delete('/sensores/{id}', [SensorController::class, 'destroy'])->name('sensores.destroy');
 
 // Rutas para Alertas

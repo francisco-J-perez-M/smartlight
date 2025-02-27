@@ -43,6 +43,19 @@
                                     <span class="text-muted">No hay sensores asociados.</span>
                                 @endif
                             </p>
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('postes.show', ['id' => $poste['_id']]) }}" class="btn btn-outline-light">
+                                    Consultar
+                                </a>
+                                <a href="{{ route('postes.edit', $poste['_id']) }}" class="btn btn-outline-warning">
+                                    Editar
+                                </a>
+                                <form action="{{ route('postes.destroy', $poste['_id']) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este poste?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

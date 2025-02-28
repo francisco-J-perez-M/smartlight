@@ -8,26 +8,23 @@
     <style>
         body {
             padding-top: 70px;
-            background-color: #343a40; /* Fondo oscuro para el cuerpo */
+            background-color: #343a40; /* Fondo oscuro */
             color: #ffffff; /* Texto claro */
         }
 
         /* Personalización de la barra de desplazamiento */
         body::-webkit-scrollbar {
-            width: 8px; /* Ancho de la barra de desplazamiento */
+            width: 8px;
         }
-
         body::-webkit-scrollbar-track {
-            background: #343a40; /* Fondo oscuro para la pista */
+            background: #343a40;
         }
-
         body::-webkit-scrollbar-thumb {
-            background: #6c757d; /* Color del pulgar */
-            border-radius: 4px; /* Bordes redondeados */
+            background: #6c757d;
+            border-radius: 4px;
         }
-
         body::-webkit-scrollbar-thumb:hover {
-            background: #495057; /* Color del pulgar al pasar el mouse */
+            background: #495057;
         }
 
         .badge-success {
@@ -43,11 +40,11 @@
             border-radius: 5px;
         }
         .card {
-            border: 1px solid rgba(255, 255, 255, 0.125); /* Borde claro para las tarjetas */
+            border: 1px solid rgba(255, 255, 255, 0.125);
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            background-color: #454d55; /* Fondo oscuro para las tarjetas */
-            color: #ffffff; /* Texto claro */
+            background-color: #454d55;
+            color: #ffffff;
         }
         .card-title {
             font-size: 1.5rem;
@@ -58,11 +55,11 @@
         }
         hr {
             margin: 1.5rem 0;
-            border-color: rgba(255, 255, 255, 0.1); /* Línea divisoria más clara */
+            border-color: rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
-<body class="bg-dark text-light"> <!-- Aplicar fondo oscuro y texto claro aquí -->
+<body class="bg-dark text-light">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
@@ -71,7 +68,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('postes.*') ? 'active' : '' }}" href="{{ route('postes.index') }}">Postes</a>
                     </li>
@@ -85,12 +82,20 @@
                         <a class="nav-link {{ request()->routeIs('usuarios.*') ? 'active' : '' }}" href="{{ route('usuarios.index') }}">Usuarios</a>
                     </li>
                 </ul>
+                <!-- Formulario oculto para logout -->
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                <!-- Botón de logout -->
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-danger px-4 py-2 rounded-pill">
+                    Logout
+                </a>
             </div>
         </div>
     </nav>
 
     <!-- Contenido -->
-    <div class="container mt-5 bg-transparent"> <!-- Contenedor con fondo transparente -->
+    <div class="container mt-5 bg-transparent">
         @yield('content')
     </div>
 

@@ -20,7 +20,7 @@
                     </option>
                 @endforeach
             </select>
-        </div>
+        </div> 
 
         <div class="form-group mb-3">
             <label for="estado" class="text-light">Estado</label>

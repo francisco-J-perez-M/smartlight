@@ -6,6 +6,7 @@ use App\Http\Controllers\PosteController;
 use App\Http\Controllers\SensorController;
 use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ExportImportController;
 
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -51,3 +52,7 @@ Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuar
 Route::get('/usuarios/{id}', [UserController::class, 'show'])->name('usuarios.show');
 Route::put('/usuarios/{id}', [UserController::class, 'update'])->name('usuarios.update');
 Route::get('/usuarios/{id}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
+
+//rutas para importaciones y exportaciones desde exel
+Route::get('/exportar-usuarios', [ExportImportController::class, 'exportUsuarios'])->name('usuarios.export');
+Route::post('/importar-usuarios', [ExportImportController::class, 'importUsuarios'])->name('usuarios.import');

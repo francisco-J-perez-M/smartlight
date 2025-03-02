@@ -3,12 +3,35 @@
 @section('title', 'Lista de Postes')
 
 @section('content')
-    <div class="p-4"> <!-- Padding para el contenido -->
+    <div class="p-4">
         <h1 class="my-4">Lista de Postes</h1>
 
         <!-- Botón "Agregar Poste" solo para admin -->
-        @if(Session::get('rol') === 'admin')
-            <a href="{{ route('postes.create') }}" class="btn btn-outline-light mb-3">Agregar Poste</a>
+        <div class="d-flex justify-content-between mb-3">
+            @if(Session::get('rol') === 'admin')
+                <a href="{{ route('postes.create') }}" class="btn btn-outline-light">Agregar Poste</a>
+            @endif
+
+            <!-- Botón para exportar a Excel -->
+            <a href="{{ route('postes.export') }}" class="btn btn-outline-success">Exportar a Excel</a>
+        </div>
+
+        <!-- Formulario para importar desde Excel -->
+        <form action="{{ route('postes.import') }}" method="POST" enctype="multipart/form-data" class="mb-4">
+            @csrf
+            <div class="form-group">
+                <label for="file">Importar Postes desde Excel</label>
+                <input type="file" name="file" class="form-control-file" required>
+            </div>
+            <button type="submit" class="btn btn-outline-primary">Importar</button>
+        </form>
+
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
 
         <div class="row">

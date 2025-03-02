@@ -56,3 +56,9 @@ Route::get('/usuarios/{id}/edit', [UserController::class, 'edit'])->name('usuari
 //rutas para importaciones y exportaciones desde exel
 Route::get('/exportar-usuarios', [ExportImportController::class, 'exportUsuarios'])->name('usuarios.export');
 Route::post('/importar-usuarios', [ExportImportController::class, 'importUsuarios'])->name('usuarios.import');
+Route::get('/exportar-alertas', [ExportImportController::class, 'exportAlertas'])->name('alertas.export');
+Route::post('/importar-alertas', [ExportImportController::class, 'importAlertas'])->name('alertas.import');
+Route::get('/exportar-sensores', [ExportImportController::class, 'exportSensores'])->name('sensores.export');
+Route::post('/importar-sensores', [ExportImportController::class, 'importSensores'])->name('sensores.import');
+Route::get('/exportar-postes', [ExportImportController::class, 'exportPostes'])->name('postes.export');
+Route::post('/importar-postes', [ExportImportController::class, 'importPostes'])->name('postes.import');

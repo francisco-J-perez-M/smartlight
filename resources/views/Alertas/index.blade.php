@@ -11,9 +11,10 @@
             @if(Session::get('rol') === 'admin')
                 <a href="{{ route('alertas.create') }}" class="btn btn-outline-light">Agregar Alerta</a>
             @endif
-
             <!-- Botón para exportar a Excel -->
             <a href="{{ route('alertas.export') }}" class="btn btn-outline-success">Exportar a Excel</a>
+            <!-- Botón para ver gráficas de alertas -->
+<a href="{{ route('graficas.alertas') }}" class="btn btn-outline-info">Ver Gráficas</a>
         </div>
 
         <!-- Formulario para importar desde Excel -->

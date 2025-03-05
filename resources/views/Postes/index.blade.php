@@ -11,9 +11,12 @@
             @if(Session::get('rol') === 'admin')
                 <a href="{{ route('postes.create') }}" class="btn btn-outline-light">Agregar Poste</a>
             @endif
-
+        
             <!-- Botón para exportar a Excel -->
             <a href="{{ route('postes.export') }}" class="btn btn-outline-success">Exportar a Excel</a>
+        
+            <!-- Botón para ver gráficas de postes -->
+            <a href="{{ route('graficas.postes') }}" class="btn btn-outline-info">Ver Gráficas</a>
         </div>
 
         <!-- Formulario para importar desde Excel -->

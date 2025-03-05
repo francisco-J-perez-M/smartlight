@@ -13,6 +13,9 @@
 
             <!-- Botón para exportar a Excel -->
             <a href="{{ route('usuarios.export') }}" class="btn btn-outline-success">Exportar a Excel</a>
+
+            <!-- Botón para ver gráficas -->
+            <a href="{{ route('graficas.usuarios') }}" class="btn btn-outline-info">Ver Gráficas</a>
         </div>
 
         <!-- Formulario para importar desde Excel -->
@@ -49,7 +52,7 @@
                                 <form action="{{ route('usuarios.destroy', $usuario['_id']) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submt" class="btn btn-outline-danger">Eliminar</button>
+                                    <button type="submit" class="btn btn-outline-danger">Eliminar</button>
                                 </form>
                             @endif
                         </div>

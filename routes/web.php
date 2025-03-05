@@ -7,6 +7,7 @@ use App\Http\Controllers\SensorController;
 use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExportImportController;
+use App\Http\Controllers\GraficasController;
 
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -62,3 +63,9 @@ Route::get('/exportar-sensores', [ExportImportController::class, 'exportSensores
 Route::post('/importar-sensores', [ExportImportController::class, 'importSensores'])->name('sensores.import');
 Route::get('/exportar-postes', [ExportImportController::class, 'exportPostes'])->name('postes.export');
 Route::post('/importar-postes', [ExportImportController::class, 'importPostes'])->name('postes.import');
+
+// Ruta para la vista de gráficas
+Route::get('/graficas/usuarios', [GraficasController::class, 'usuarios'])->name('graficas.usuarios');
+Route::get('/graficas/alertas', [GraficasController::class, 'alertas'])->name('graficas.alertas');
+Route::get('/graficas/postes', [GraficasController::class, 'postes'])->name('graficas.postes');
+Route::get('/graficas/sensores', [GraficasController::class, 'sensores'])->name('graficas.sensores');

@@ -11,9 +11,12 @@
             @if(Session::get('rol') === 'admin')
                 <a href="{{ route('sensores.create') }}" class="btn btn-outline-light">Agregar Sensor</a>
             @endif
-
+        
             <!-- Botón para exportar a Excel -->
             <a href="{{ route('sensores.export') }}" class="btn btn-outline-success">Exportar a Excel</a>
+        
+            <!-- Botón para ver gráficas de sensores -->
+            <a href="{{ route('graficas.sensores') }}" class="btn btn-outline-info">Ver Gráficas</a>
         </div>
 
         <!-- Formulario para importar desde Excel -->

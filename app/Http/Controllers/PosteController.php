@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 class PosteController extends Controller
 {
     // Obtener todos los postes
-    public function index()
+    public function index(Request $request)
     {
         $response = Http::get('http://localhost:3000/postes');
         $postes = $response->json();
@@ -18,7 +18,18 @@ class PosteController extends Controller
             $postes = [];
         }
 
-        return view('postes.index', compact('postes'));
+        // Paginación manual
+        $perPage = 6;
+        $page = $request->get('page', 1);
+        $offset = ($page - 1) * $perPage;
+        $postesPaginated = array_slice($postes, $offset, $perPage);
+        $totalPages = ceil(count($postes) / $perPage);
+
+        return view('postes.index', [
+            'postes' => $postesPaginated,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+        ]);
     }
 
     public function create()

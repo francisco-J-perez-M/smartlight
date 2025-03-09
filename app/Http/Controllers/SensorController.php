@@ -8,13 +8,25 @@ use Illuminate\Support\Facades\Http;
 class SensorController extends Controller
 {
     // Obtener todos los sensores
-    public function index()
+    public function index(Request $request)
     {
         $response = Http::get('http://localhost:3000/sensores');
         $sensores = $response->json();
 
-        return view('sensores.index', compact('sensores'));
+        // Paginación manual
+        $perPage = 6;
+        $page = $request->get('page', 1);
+        $offset = ($page - 1) * $perPage;
+        $sensoresPaginated = array_slice($sensores, $offset, $perPage);
+        $totalPages = ceil(count($sensores) / $perPage);
+
+        return view('sensores.index', [
+            'sensores' => $sensoresPaginated,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+        ]);
     }
+
 
     // Mostrar el formulario para crear un nuevo sensor
     public function create()

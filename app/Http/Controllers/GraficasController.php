@@ -9,18 +9,28 @@ class GraficasController extends Controller
 {
     // Función para gráficas de usuarios
     public function usuarios()
-    {
-        // Obtener los datos de la API
-        $response = Http::get('http://localhost:3000/usuarios');
-        $usuarios = $response->json();
+{
+    // Obtener los datos de la API
+    $response = Http::get('http://localhost:3000/usuarios');
+    $usuarios = $response->json();
 
-        // Procesar datos para las gráficas de usuarios
-        $roles = collect($usuarios)->groupBy('rol')->map->count();
+    // Procesar datos para las gráficas de usuarios
+    $roles = collect($usuarios)->groupBy('rol')->map->count();
 
-        return view('graficas.usuarios', [
-            'roles' => $roles,
-        ]);
-    }
+    // Procesar datos para la gráfica de dominios de correo
+    $dominios = collect($usuarios)->map(function ($usuario) {
+        // Extraer el dominio del correo electrónico
+        $email = $usuario['email'];
+        return substr(strrchr($email, "@"), 1); // Obtener todo después del "@"
+    })->groupBy(function ($dominio) {
+        return $dominio; // Agrupar por dominio
+    })->map->count(); // Contar usuarios por dominio
+
+    return view('graficas.usuarios', [
+        'roles' => $roles,
+        'dominios' => $dominios,
+    ]);
+}
 
     // Función para gráficas de alertas
     public function alertas()

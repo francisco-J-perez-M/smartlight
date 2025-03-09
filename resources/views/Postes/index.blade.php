@@ -40,7 +40,7 @@
         <div class="row">
             @foreach ($postes as $poste)
                 <div class="col-md-4 mb-4">
-                    <div class="card bg-secondary text-light">
+                    <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">
                                 ID del Poste: 
@@ -97,5 +97,69 @@
                 </div>
             @endforeach
         </div>
+
+        <!-- Paginación con colores personalizados -->
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Paginación de postes">
+                <ul class="pagination">
+                    <!-- Botón "Anterior" -->
+                    @if($currentPage > 1)
+                        <li class="page-item">
+                            <a class="page-link bg-dark text-light" href="{{ route('postes.index', ['page' => $currentPage - 1]) }}" aria-label="Anterior">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    @else
+                        <li class="page-item disabled">
+                            <span class="page-link bg-secondary text-light" aria-hidden="true">&laquo;</span>
+                        </li>
+                    @endif
+
+                    <!-- Números de página -->
+                    @for($i = 1; $i <= $totalPages; $i++)
+                        <li class="page-item {{ $i == $currentPage ? 'active' : '' }}">
+                            <a class="page-link bg-dark text-light" href="{{ route('postes.index', ['page' => $i]) }}">{{ $i }}</a>
+                        </li>
+                    @endfor
+
+                    <!-- Botón "Siguiente" -->
+                    @if($currentPage < $totalPages)
+                        <li class="page-item">
+                            <a class="page-link bg-dark text-light" href="{{ route('postes.index', ['page' => $currentPage + 1]) }}" aria-label="Siguiente">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    @else
+                        <li class="page-item disabled">
+                            <span class="page-link bg-secondary text-light" aria-hidden="true">&raquo;</span>
+                        </li>
+                    @endif
+                </ul>
+            </nav>
+        </div>
     </div>
+
+    <!-- Estilos personalizados para la paginación -->
+    <style>
+        .page-link {
+            background-color: #343a40; /* Fondo oscuro */
+            color: #ffffff; /* Texto blanco */
+            border: 1px solid #454d55; /* Borde oscuro */
+        }
+
+        .page-link:hover {
+            background-color: #23272b; /* Fondo oscuro más claro al pasar el mouse */
+            color: #ffffff;
+        }
+
+        .page-item.active .page-link {
+            background-color: #007bff; /* Fondo azul para la página activa */
+            border-color: #007bff;
+        }
+
+        .page-item.disabled .page-link {
+            background-color: #6c757d; /* Fondo gris para botones deshabilitados */
+            color: #ffffff;
+        }
+    </style>
 @endsection

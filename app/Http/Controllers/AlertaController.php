@@ -7,13 +7,24 @@ use Illuminate\Support\Facades\Http;
 
 class AlertaController extends Controller
 {
-    // Obtener todos las alertas
-    public function index()
+    // Obtener todas las alertas
+    public function index(Request $request)
     {
         $response = Http::get('http://localhost:3000/alertas');
         $alertas = $response->json();
 
-        return view('alertas.index', compact('alertas'));
+        // Paginación manual
+        $perPage = 6;
+        $page = $request->get('page', 1);
+        $offset = ($page - 1) * $perPage;
+        $alertasPaginated = array_slice($alertas, $offset, $perPage);
+        $totalPages = ceil(count($alertas) / $perPage);
+
+        return view('alertas.index', [
+            'alertas' => $alertasPaginated,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+        ]);
     }
 
     // Mostrar el formulario de creación

@@ -8,12 +8,23 @@ use Illuminate\Support\Facades\Http;
 class UserController extends Controller
 {
     // Obtener todos los usuarios
-    public function index()
+    public function index(Request $request)
     {
         $response = Http::get('http://localhost:3000/usuarios');
         $usuarios = $response->json();
 
-        return view('usuarios.index', compact('usuarios'));
+        // Paginación manual
+        $perPage = 6;
+        $page = $request->get('page', 1);
+        $offset = ($page - 1) * $perPage;
+        $usuariosPaginated = array_slice($usuarios, $offset, $perPage);
+        $totalPages = ceil(count($usuarios) / $perPage);
+
+        return view('usuarios.index', [
+            'usuarios' => $usuariosPaginated,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+        ]);
     }
 
     // Mostrar formulario de creación

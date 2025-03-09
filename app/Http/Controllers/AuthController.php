@@ -25,8 +25,17 @@ class AuthController extends Controller
 
     public function login(Request $request)
 {
-    // Verifica que los datos se estén enviando correctamente
-    $credentials = $request->only('nombre', 'email', 'password');
+    // Validar los campos del formulario
+    $request->validate([
+        'nombre' => 'required|string',
+        'email' => 'required|email',
+        'password' => 'required|string',
+    ], [
+        'nombre.required' => 'El campo nombre es obligatorio.',
+        'email.required' => 'El campo email es obligatorio.',
+        'email.email' => 'El campo email debe ser una dirección de correo válida.',
+        'password.required' => 'El campo contraseña es obligatorio.',
+    ]);
 
     // Verificar si el usuario está bloqueado
     if (Session::get('login_attempts', 0) >= 3) {
@@ -43,6 +52,7 @@ class AuthController extends Controller
         }
     }
 
+    // Obtener los usuarios desde la API
     $response = Http::get('http://localhost:3000/usuarios');
     if ($response->failed()) {
         return back()->withErrors(['email' => 'Error al conectarse con el servidor.']);
@@ -51,19 +61,21 @@ class AuthController extends Controller
     $users = $response->json();
 
     // Buscar el usuario en la API
-    $user = collect($users)->first(function ($user) use ($credentials) {
-        return strtolower(trim($user['nombre'])) === strtolower(trim($credentials['nombre'])) &&
-               strtolower(trim($user['email'])) === strtolower(trim($credentials['email'])) &&
-               trim($user['password']) === trim($credentials['password']);
+    $user = collect($users)->first(function ($user) use ($request) {
+        return strtolower(trim($user['nombre'])) === strtolower(trim($request->nombre)) &&
+               strtolower(trim($user['email'])) === strtolower(trim($request->email));
     });
 
     if ($user) {
-        // Reiniciar el contador de intentos fallidos
-        Session::forget('login_attempts');
-        Session::forget('last_attempt_time');
-        Session::put('user', $user);
-        Session::put('rol', $user['rol']); // Almacenar el rol en la sesión
-        return redirect()->route('home');
+        // Verificar la contraseña encriptada
+        if (password_verify($request->password, $user['password'])) {
+            // Reiniciar el contador de intentos fallidos
+            Session::forget('login_attempts');
+            Session::forget('last_attempt_time');
+            Session::put('user', $user);
+            Session::put('rol', $user['rol']); // Almacenar el rol en la sesión
+            return redirect()->route('home');
+        }
     }
 
     // Incrementar el contador de intentos fallidos
@@ -80,21 +92,47 @@ class AuthController extends Controller
     }
 
     public function register(Request $request)
-    {
-        $credentials = $request->only('nombre', 'email', 'password');
+{
+    // Validar los campos del formulario
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'password' => 'required|string|min:8|confirmed',
+    ], [
+        'nombre.required' => 'El campo nombre es obligatorio.',
+        'email.required' => 'El campo email es obligatorio.',
+        'email.email' => 'El campo email debe ser una dirección de correo válida.',
+        'password.required' => 'El campo contraseña es obligatorio.',
+        'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+        'password.confirmed' => 'Las contraseñas no coinciden.',
+    ]);
 
-        // Asegúrate de que el rol sea 'tecnico'
-        $credentials['rol'] = 'tecnico';
-
-        // Enviar los datos a la API para crear el usuario
-        $response = Http::post('http://localhost:3000/usuarios', $credentials);
-
-        if ($response->successful()) {
-            return redirect()->route('login')->with('success', 'Registro exitoso. Por favor, inicia sesión.');
-        } else {
-            return back()->withErrors(['error' => 'Error al registrar el usuario.']);
-        }
+    // Verificar si el email ya está registrado en la API
+    $response = Http::get('http://localhost:3000/usuarios');
+    if ($response->failed()) {
+        return back()->withErrors(['error' => 'Error al conectarse con el servidor.']);
     }
+
+    $users = $response->json();
+    $emailExists = collect($users)->contains('email', $request->email);
+
+    if ($emailExists) {
+        return back()->withErrors(['email' => 'El email ya está registrado.']);
+    }
+
+    // Asegúrate de que el rol sea 'tecnico'
+    $credentials = $request->only('nombre', 'email', 'password');
+    $credentials['rol'] = 'tecnico';
+
+    // Enviar los datos a la API para crear el usuario
+    $response = Http::post('http://localhost:3000/usuarios', $credentials);
+
+    if ($response->successful()) {
+        return redirect()->route('login')->with('success', 'Registro exitoso. Por favor, inicia sesión.');
+    } else {
+        return back()->withErrors(['error' => 'Error al registrar el usuario.']);
+    }
+}
 
     public function logout(Request $request)
     {

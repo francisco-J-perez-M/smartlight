@@ -45,6 +45,11 @@
             border-top-right-radius: 15px;
             font-size: 1.5rem; /* Aumentado el tamaño del texto del encabezado */
         }
+        .error-message {
+            color: #dc3545; /* Color rojo para los mensajes de error */
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
     </style>
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100">
@@ -55,19 +60,43 @@
                 <h4 class="mb-0">Registro de Técnico</h4>
             </div>
             <div class="card-body">
+                <!-- Mostrar errores generales -->
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <form method="POST" action="/register">
                     @csrf
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" name="nombre" id="nombre" class="form-control" required>
+                        <input type="text" name="nombre" id="nombre" class="form-control" value="{{ old('nombre') }}" required>
+                        @error('nombre')
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" name="email" id="email" class="form-control" required>
+                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
+                        @error('email')
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Contraseña</label>
                         <input type="password" name="password" id="password" class="form-control" required>
+                        @error('password')
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
                     </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">Registrarse</button>

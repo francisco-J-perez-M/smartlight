@@ -4,33 +4,49 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 
 class PosteController extends Controller
 {
     // Obtener todos los postes
     public function index(Request $request)
-    {
-        $response = Http::get('http://localhost:3000/postes');
-        $postes = $response->json();
+{
+    // Obtener todos los postes de la API
+    $response = Http::get('http://localhost:3000/postes');
+    $postes = $response->json();
 
-        // Asegurar que $postes es un array
-        if (!is_array($postes)) {
-            $postes = [];
-        }
-
-        // Paginación manual
-        $perPage = 6;
-        $page = $request->get('page', 1);
-        $offset = ($page - 1) * $perPage;
-        $postesPaginated = array_slice($postes, $offset, $perPage);
-        $totalPages = ceil(count($postes) / $perPage);
-
-        return view('postes.index', [
-            'postes' => $postesPaginated,
-            'currentPage' => $page,
-            'totalPages' => $totalPages,
-        ]);
+    // Asegurar que $postes es un array
+    if (!is_array($postes)) {
+        $postes = [];
     }
+
+    // Búsqueda por ID
+    if ($request->has('search')) {
+        $search = $request->input('search');
+        $postes = array_filter($postes, function ($poste) use ($search) {
+            return stripos($poste['_id'], $search) !== false;
+        });
+    }
+
+    // Paginación manual con LengthAwarePaginator
+    $perPage = 6;
+    $page = $request->get('page', 1);
+    $offset = ($page - 1) * $perPage;
+
+    $postesPaginated = new LengthAwarePaginator(
+        array_slice($postes, $offset, $perPage), // Elementos de la página actual
+        count($postes), // Total de elementos
+        $perPage, // Elementos por página
+        $page, // Página actual
+        ['path' => $request->url(), 'query' => $request->query()] // Opciones de paginación
+    );
+
+    return view('postes.index', [
+        'postes' => $postesPaginated,
+        'search' => $request->input('search', ''), // Pasar el término de búsqueda a la vista
+    ]);
+}
 
     public function create()
     {

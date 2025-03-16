@@ -4,28 +4,57 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 class UserController extends Controller
 {
+    public function boot()
+{
+    Paginator::useBootstrapFive(); // Para Bootstrap 5
+}
     // Obtener todos los usuarios
     public function index(Request $request)
-    {
-        $response = Http::get('http://localhost:3000/usuarios');
-        $usuarios = $response->json();
+{
+    // Obtener todos los usuarios de la API
+    $response = Http::get('http://localhost:3000/usuarios');
+    $usuarios = $response->json();
+    
 
-        // Paginación manual
-        $perPage = 6;
-        $page = $request->get('page', 1);
-        $offset = ($page - 1) * $perPage;
-        $usuariosPaginated = array_slice($usuarios, $offset, $perPage);
-        $totalPages = ceil(count($usuarios) / $perPage);
+    // Paginación manual
+    $perPage = 6; // Número de elementos por página
+    $page = $request->get('page', 1); // Página actual
+    $offset = ($page - 1) * $perPage;
 
-        return view('usuarios.index', [
-            'usuarios' => $usuariosPaginated,
-            'currentPage' => $page,
-            'totalPages' => $totalPages,
-        ]);
-    }
+    // Crear un objeto LengthAwarePaginator
+    $usuariosPaginated = new LengthAwarePaginator(
+        array_slice($usuarios, $offset, $perPage), // Elementos de la página actual
+        count($usuarios), // Total de elementos
+        $perPage, // Elementos por página
+        $page, // Página actual
+        ['path' => $request->url(), 'query' => $request->query()] // Opciones de paginación
+    );
+
+    return view('usuarios.index', [
+        'usuarios' => $usuariosPaginated,
+    ]);
+}
+    // Método para buscar usuarios
+public function search(Request $request)
+{
+    // Obtener todos los usuarios de la API
+    $response = Http::get('http://localhost:3000/usuarios');
+    $usuarios = $response->json();
+
+    // Filtrar usuarios según el término de búsqueda
+    $search = $request->input('search');
+    $filteredUsuarios = collect($usuarios)->filter(function ($usuario) use ($search) {
+        return stripos($usuario['nombre'], $search) !== false;
+    });
+
+    // Devolver los resultados filtrados en formato JSON
+    return response()->json($filteredUsuarios->values());
+}
 
     // Mostrar formulario de creación
     public function create()

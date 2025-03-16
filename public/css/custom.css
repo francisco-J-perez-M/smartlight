@@ -1,0 +1,19 @@
+.custom-pagination .page-item .page-link {
+    background-color: #343a40 !important; /* Fondo oscuro */
+    color: #ffffff !important; /* Texto blanco */
+    border: 1px solid #454d55 !important; /* Borde oscuro */
+    border-radius: 5px !important;
+    margin: 2px;
+    padding: 8px 12px;
+}
+
+.custom-pagination .page-item .page-link:hover {
+    background-color: #23272b !important;
+    color: #ffffff !important;
+}
+
+.custom-pagination .page-item.active .page-link {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    color: #ffffff !important;
+}

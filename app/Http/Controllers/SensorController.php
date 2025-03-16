@@ -1,31 +1,47 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class SensorController extends Controller
 {
     // Obtener todos los sensores
     public function index(Request $request)
-    {
-        $response = Http::get('http://localhost:3000/sensores');
-        $sensores = $response->json();
+{
+    // Obtener todos los sensores de la API
+    $response = Http::get('http://localhost:3000/sensores');
+    $sensores = $response->json();
 
-        // Paginación manual
-        $perPage = 6;
-        $page = $request->get('page', 1);
-        $offset = ($page - 1) * $perPage;
-        $sensoresPaginated = array_slice($sensores, $offset, $perPage);
-        $totalPages = ceil(count($sensores) / $perPage);
-
-        return view('sensores.index', [
-            'sensores' => $sensoresPaginated,
-            'currentPage' => $page,
-            'totalPages' => $totalPages,
-        ]);
+    // Búsqueda por ID
+    if ($request->has('search')) {
+        $search = $request->input('search');
+        $sensores = array_filter($sensores, function ($sensor) use ($search) {
+            return stripos($sensor['_id'], $search) !== false;
+        });
     }
+
+    // Paginación manual con LengthAwarePaginator
+    $perPage = 6;
+    $page = $request->get('page', 1);
+    $offset = ($page - 1) * $perPage;
+
+    $sensoresPaginated = new LengthAwarePaginator(
+        array_slice($sensores, $offset, $perPage), // Elementos de la página actual
+        count($sensores), // Total de elementos
+        $perPage, // Elementos por página
+        $page, // Página actual
+        ['path' => $request->url(), 'query' => $request->query()] // Opciones de paginación
+    );
+
+    return view('sensores.index', [
+        'sensores' => $sensoresPaginated,
+        'search' => $request->input('search', ''), // Pasar el término de búsqueda a la vista
+    ]);
+}
 
 
     // Mostrar el formulario para crear un nuevo sensor

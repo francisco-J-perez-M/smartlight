@@ -66,7 +66,7 @@ public function search(Request $request)
         $sensores = $response->json();
 
         // Pasar los sensores a la vista
-        return view('Alertas.form', compact('sensores'));
+        return view('alertas.form', compact('sensores'));
     }
 
     // Mostrar los detalles de una alerta específica
@@ -77,7 +77,7 @@ public function search(Request $request)
         $alerta = $response->json();
 
         // Pasar la alerta a la vista de detalles
-        return view('Alertas.show', compact('alerta'));
+        return view('alertas.show', compact('alerta'));
     }
 
     // Mostrar el formulario de edición
@@ -92,7 +92,7 @@ public function search(Request $request)
         $sensores = $response->json();
 
         // Pasar la alerta y los sensores a la vista
-        return view('Alertas.form', compact('alerta', 'sensores'));
+        return view('alertas.form', compact('alerta', 'sensores'));
     }
 
     // Crear una nueva alerta

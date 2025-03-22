@@ -58,7 +58,7 @@ class PosteController extends Controller
             $sensores = [];
         }
 
-        return view('Postes.form', compact('sensores'));
+        return view('postes.form', compact('sensores'));
     }
 
     // Crear un nuevo poste

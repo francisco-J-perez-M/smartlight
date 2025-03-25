@@ -71,14 +71,30 @@ public function search(Request $request)
 
     // Mostrar los detalles de una alerta específica
     public function show($id)
-    {
-        // Obtener la alerta específica desde la API
-        $response = Http::get("http://localhost:3000/alertas/{$id}");
-        $alerta = $response->json();
+{
+    // Obtener la alerta
+    $responseAlerta = Http::get("http://localhost:3000/alertas/{$id}");
+    $alerta = $responseAlerta->json();
 
-        // Pasar la alerta a la vista de detalles
-        return view('alertas.show', compact('alerta'));
+    // Obtener el sensor relacionado
+    $sensor = null;
+    $poste = null;
+    if (!empty($alerta) && isset($alerta['sensor']['_id'])) {
+        $sensorId = $alerta['sensor']['_id'];
+        $responseSensor = Http::get("http://localhost:3000/sensores/{$sensorId}");
+        $sensor = $responseSensor->json();
+
+        // Obtener el poste relacionado si existe
+        if (isset($sensor['poste']['_id'])) {
+            $posteId = $sensor['poste']['_id'];
+            $responsePoste = Http::get("http://localhost:3000/postes/{$posteId}");
+            $poste = $responsePoste->json();
+        }
     }
+
+    return view('alertas.show', compact('alerta', 'sensor', 'poste'));
+}
+
 
     // Mostrar el formulario de edición
     public function edit($id)

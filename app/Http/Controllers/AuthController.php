@@ -68,14 +68,22 @@ class AuthController extends Controller
 
     if ($user) {
         // Verificar la contraseña encriptada
-        if (password_verify($request->password, $user['password'])) {
-            // Reiniciar el contador de intentos fallidos
-            Session::forget('login_attempts');
-            Session::forget('last_attempt_time');
-            Session::put('user', $user);
-            Session::put('rol', $user['rol']); // Almacenar el rol en la sesión
-            return redirect()->route('home');
-        }
+        // En el método login(), modifica la parte del éxito:
+if (password_verify($request->password, $user['password'])) {
+    Session::forget('login_attempts');
+    Session::forget('last_attempt_time');
+    
+    // Guarda todos los datos relevantes en la sesión
+    Session::put([
+        'user' => $user,
+        'user_id' => $user['_id'],  // Asegúrate que la API devuelve _id
+        'nombre' => $user['nombre'],
+        'rol' => $user['rol'],
+        'email' => $user['email']
+    ]);
+    
+    return redirect()->route('home');
+}
     }
 
     // Incrementar el contador de intentos fallidos
